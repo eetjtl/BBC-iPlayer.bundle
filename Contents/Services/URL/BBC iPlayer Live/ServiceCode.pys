@@ -25,7 +25,7 @@ def MetadataObjectForURL(url):
 
     element = HTML.ElementFromURL(url, cacheTime=0)
 
-    for on_air_info in element.xpath("//*[@id = 'nownext']//*[@id = 'now']"):        
+    for on_air_info in element.xpath("//*[@id = 'main']//*[@id = 'now']"):        
 
         try:
             title = 'Live: ' + ''.join(on_air_info.xpath(".//h2/text()")).strip()
