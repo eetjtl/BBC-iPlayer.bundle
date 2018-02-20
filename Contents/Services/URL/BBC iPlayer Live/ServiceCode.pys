@@ -1,4 +1,5 @@
 RE_CHANNEL = Regex('iplayer/live/([^/]+)')
+RE_JSON = Regex('({"initialState":.+})\);')
 
 TV_CHANNEL_LOOKUP = {
     "bbcone": {"live_id" : "bbc1", "hd_live_id": "bbc_one_hd"},
@@ -13,8 +14,6 @@ TV_CHANNEL_LOOKUP = {
     "s4c": {"live_id" : "s4cpbs"}
 }
 
-RAW_HLS_CLIENTS = ['Android', 'iOS', 'Roku', 'Safari', 'tvOS', 'Mystery 4', 'Konvergo']
-
 ##########################################################################################
 def NormalizeURL(url):
 
@@ -23,44 +22,28 @@ def NormalizeURL(url):
 ##########################################################################################
 def MetadataObjectForURL(url):
 
-    element = HTML.ElementFromURL(url, cacheTime=0)
+    page = HTTP.Request(url, cacheTime=0).content
+    json = RE_JSON.search(page).group(1)
+    json_obj = JSON.ObjectFromString(json)
 
-    for on_air_info in element.xpath("//*[@id = 'main']//*[@id = 'now']"):        
+    for item in json_obj['initialState']['broadcasts']['items']:
 
-        try:
-            title = 'Live: ' + ''.join(on_air_info.xpath(".//h2/text()")).strip()
-        except:
-            title = 'Live'
+        if item['label'] != "On Now":
+            continue
 
-        try:
-            time_info = on_air_info.xpath(".//*[@class = 'broadcast-time']//text()")[0].strip()
-        except:
-            time_info = ''
+        title = item['title']
 
-        try:
-            subtitle = on_air_info.xpath(".//*[contains(@class = 'subtitle')]//text()")[0].strip()
-        except:
-            subtitle = ''
+        if item['subtitle'] != "":
+            title = ' - '.join([title, item['subtitle']])
 
-        try:
-            description = on_air_info.xpath('.//*[contains(@class, "synopsis")]//text()')[0].strip()
-        except:
-            description = ''
-
-        summary = time_info + '\r\n' + subtitle + '\r\n' + description
-
-        try:
-            thumb = element.xpath("//*[@id='player-outer']//img/@src")[0]
-        except:
-            thumb = None
+        thumb = item['image'].replace("{recipe}", "640x360")
 
         return VideoClipObject(
             title = title,
-            summary = summary,
             thumb = thumb
-        )   
+        )
 
-    return Ex.LiveMediaNotStarted
+    raise Ex.LiveMediaNotStarted
 
 ##########################################################################################
 @deferred
