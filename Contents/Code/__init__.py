@@ -725,7 +725,7 @@ def NoProgrammesFound(oc, title):
 
 ####################################################################################################
 @route(PREFIX + '/CreatePlayableObject', include_container = bool) 
-def CreatePlayableObject(title, thumb, art, type, url, include_container = False):
+def CreatePlayableObject(title, thumb, art, type, url, include_container = False, **kwargs):
     items = []
 
     if type == 'mp3':
