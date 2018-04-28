@@ -268,6 +268,11 @@ def VideosFromSchedule(title, url, channel_id = None):
 @route(PREFIX + '/highlights')
 def Highlights(title, url):    
     return Episodes(title, url, "//*[contains(@class, 'gel-layout')]//*[contains(@class, '__item')]")
+    
+#########################################################################################
+@route(PREFIX + '/highlights2')
+def Highlights2(title, url):        
+    return Episodes(title, url, "//*[contains(@class, 'grid__row ')]//*[contains(@class, '__item')]")
 
 ##########################################################################################
 @route(PREFIX + '/mostpopular')
@@ -296,7 +301,7 @@ def Categories(title):
             DirectoryObject(
                 key = 
                     Callback(
-                        Highlights,
+                        Highlights2,
                         title = title,
                         url = url
                     ),
