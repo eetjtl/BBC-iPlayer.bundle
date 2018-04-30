@@ -257,7 +257,7 @@ def Channel(channel_id):
 def VideosFromSchedule(title, url, channel_id = None):
     # this function generates the schedule lists for today / yesterday etc
     oc = ObjectContainer(title2 = title)
-    
+
     return Episodes(
         title = title,
         url = url,
@@ -266,12 +266,12 @@ def VideosFromSchedule(title, url, channel_id = None):
 
 ##########################################################################################
 @route(PREFIX + '/highlights')
-def Highlights(title, url):    
+def Highlights(title, url):
     return Episodes(title, url, "//*[contains(@class, 'gel-layout')]//*[contains(@class, '__item')]")
-    
+
 #########################################################################################
 @route(PREFIX + '/highlights2')
-def Highlights2(title, url):        
+def Highlights2(title, url):
     return Episodes(title, url, "//*[contains(@class, 'grid__row ')]//*[contains(@class, '__item')]")
 
 ##########################################################################################
