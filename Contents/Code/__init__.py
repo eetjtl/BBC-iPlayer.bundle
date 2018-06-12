@@ -301,7 +301,7 @@ def Categories(title):
             DirectoryObject(
                 key = 
                     Callback(
-                        Highlights2,
+                        Highlights,
                         title = title,
                         url = url
                     ),
