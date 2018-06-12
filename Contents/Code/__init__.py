@@ -267,7 +267,7 @@ def VideosFromSchedule(title, url, channel_id = None):
 ##########################################################################################
 @route(PREFIX + '/highlights')
 def Highlights(title, url):
-    return Episodes(title, url, "//*[contains(@class, 'gel-layout')]//*[contains(@class, '__item')]")
+    return Episodes(title, url, "//*[contains(@class, 'main')]//*[contains(@class, 'carrousel__item gel')]")
 
 #########################################################################################
 @route(PREFIX + '/highlights2')
