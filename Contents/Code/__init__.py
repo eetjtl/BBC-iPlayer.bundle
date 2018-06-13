@@ -29,7 +29,7 @@ def MainMenu():
 
     oc = ObjectContainer()
 
-    title = "Highlights"
+    title = "Highlights2"
     oc.add(
         DirectoryObject(
             key = 
@@ -272,7 +272,7 @@ def Highlights(title, url):
 #########################################################################################
 @route(PREFIX + '/highlights2')
 def Highlights2(title, url):
-    return Episodes(title, url, "//*[contains(@class, 'grid__row ')]//*[contains(@class, '__item')]")
+    return Episodes(title, url, "//*[contains(@class, 'main')]//*[contains(@class, '__item')]")
 
 ##########################################################################################
 @route(PREFIX + '/mostpopular')
